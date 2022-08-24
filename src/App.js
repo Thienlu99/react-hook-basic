@@ -8,15 +8,15 @@ function App() {
   let [value, setValue] = useState("lu");
   let [address, setaddress] = useState("Nhập vào đi");
   let [obj, setObj] = useState([
-    {"id":1, "title":"Playing Soccer"},
-    {"id":2, "title":"Playing tenis"},
-    {"id":3, "title":"Do my homework"},
+    {id:1, title:"Playing Soccer",name:"Lu"},
+    {id:2, title:"Playing tenis",name:"B"},
+    {id:3, title:"Do my homework",name:"C"},
   ]
 
   )
   const onSubmit = () =>{
     //tao biến mới lưu trữ title: gán address vào
-    let todonew = {id:Math.floor(Math.random() * 100),title:address}
+    let todonew = {id:Math.floor(Math.random() * 100),title:address, name:"Lu"}
     // alert(value);
     setValue(address);
     // spead syntax array js
@@ -34,7 +34,8 @@ function App() {
     <div className="container">
       <Nav />
       <h1>Thay đổi thông tin nè nhập vào nè: {value}</h1>
-      <Todolist obj={obj}/>
+      <Todolist obj={obj} title="All obj"/>
+      <Todolist obj={obj.filter( item => item.name ==="Lu")} title="Name:Lu"/>
       <input type="text" value={address} onChange={(event) => {handelChange(event) }} />
       <button type="button" onClick={()=>{onSubmit()}}>Click</button>
     </div>
