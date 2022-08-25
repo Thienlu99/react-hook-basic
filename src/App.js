@@ -4,6 +4,7 @@ import Nav from './component/Header/Nav';
 import  { useState } from 'react';
 import React  from 'react';
 import Todolist from './component/Todolist/Todolist';
+import CovidTable from './component/Table/CovidTable';
 function App() {
   let [value, setValue] = useState("lu");
   let [address, setaddress] = useState("Nhập vào đi");
@@ -39,10 +40,11 @@ function App() {
     <div className="container">
       <Nav />
       <h1>Thay đổi thông tin nè nhập vào nè: {value}</h1>
-      <Todolist obj={obj} title="All obj" onDeleteX={onDeleteX}/>
+      <CovidTable />
+      {/* <Todolist obj={obj} title="All obj" onDeleteX={onDeleteX}/>
       <Todolist obj={obj.filter( item => item.name ==="Lu")} title="Name:Lu" onDeleteX={onDeleteX}/>
       <input type="text" value={address} onChange={(event) => {handelChange(event) }} />
-      <button type="button" onClick={()=>{onSubmit()}}>Click</button>
+      <button type="button" onClick={()=>{onSubmit()}}>Click</button> */}
     </div>
   );
 }
