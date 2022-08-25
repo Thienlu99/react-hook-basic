@@ -3,44 +3,48 @@ import axios from "axios";
 import moment from "react-moment";
 function CovidTable(props) {
   const [dataCovid, setDatacovid] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   //componentDidMount
   useEffect(() => {
-    setTimeout(async () => {
-    const axios = require("axios").default;
+    setTimeout( () => {
+      const axios = require("axios").default;
+      
+      // Make a request for a user with a given ID
+      axios
+        .get(
+          "https://api.covid19api.com/country/vietnam?from=2021-10-01T00:00:00Z&to=2021-10-20T00:00:00Z"
+        )
+        .then(function (response) {
+          // handle success
+          let data = response.data;
+          // data = data.reverse()
+          //format Data
+          setDatacovid(data);
+          //set isLoading
+          setIsLoading(false);
+          setIsError(false);
+          // if (data && data.length > 0) {
 
-    // Make a request for a user with a given ID
-    axios
-      .get(
-        "https://api.covid19api.com/country/vietnam?from=2021-10-01T00:00:00Z&to=2021-10-20T00:00:00Z"
-      )
-      .then(function (response) {
-        // handle success
-        let data = response.data;
-        data = data.reverse()
-        //format Data
-        setDatacovid(data)
-        //set loading
-        setLoading(false);
-        // if (data && data.length > 0) {
-    
-        //   data.map((item) => {
-        //     item.Date = moment(item.Date).format("DD/MM/YYYY");
+          //   data.map((item) => {
+          //     item.Date = moment(item.Date).format("DD/MM/YYYY");
 
-        //     setDatacovid(data);
-        //     return item;
-        //   });
-        // }
-        // console.log( setDatacovid(data))
-      })
-      .catch(function (error) {
-        // handle error
-        // console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
-    }, 3000)
+          //     setDatacovid(data);
+          //     return item;
+          //   });
+          // }
+          // console.log( setDatacovid(data))
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+          setIsError(true);
+          setIsLoading(false);
+        })
+        .then(function () {
+          // always executed
+        });
+      }, 3000)
   }, []); //despen
   return (
     <div>
@@ -56,7 +60,9 @@ function CovidTable(props) {
         </thead>
 
         <tbody>
-          {loading === false && dataCovid &&
+          {isError === false &&
+            isLoading === false &&
+            dataCovid &&
             dataCovid.length > 0 &&
             dataCovid.map((item) => {
               return (
@@ -68,11 +74,24 @@ function CovidTable(props) {
                 </tr>
               );
             })}
-            {loading === true
-                        && <tr >
-                            <td colSpan='5' style={{ 'textAlign': 'center' }}>  Loading...</td>
-                        </tr>
-                    }
+          {isLoading === true && (
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center" }}>
+                {" "}
+                Loading...
+              </td>
+            </tr>
+          )}
+
+          {isError === true && (
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center" }}>
+                {" "}
+                Something wrong state 404...{" "}
+              </td>
+            </tr>
+          )}
+
           {/* <tr>
             <td>Centro comercial Moctezuma</td>
             <td>Francisco Chang</td>
