@@ -3,8 +3,10 @@ import axios from "axios";
 import moment from "react-moment";
 function CovidTable(props) {
   const [dataCovid, setDatacovid] = useState([]);
+  const [loading, setLoading] = useState(true)
   //componentDidMount
   useEffect(() => {
+    setTimeout(async () => {
     const axios = require("axios").default;
 
     // Make a request for a user with a given ID
@@ -15,8 +17,11 @@ function CovidTable(props) {
       .then(function (response) {
         // handle success
         let data = response.data;
+        data = data.reverse()
         //format Data
         setDatacovid(data)
+        //set loading
+        setLoading(false);
         // if (data && data.length > 0) {
     
         //   data.map((item) => {
@@ -35,6 +40,7 @@ function CovidTable(props) {
       .then(function () {
         // always executed
       });
+    }, 3000)
   }, []); //despen
   return (
     <div>
@@ -50,7 +56,7 @@ function CovidTable(props) {
         </thead>
 
         <tbody>
-          {dataCovid &&
+          {loading === false && dataCovid &&
             dataCovid.length > 0 &&
             dataCovid.map((item) => {
               return (
@@ -62,8 +68,12 @@ function CovidTable(props) {
                 </tr>
               );
             })}
-
-          <tr>
+            {loading === true
+                        && <tr >
+                            <td colSpan='5' style={{ 'textAlign': 'center' }}>  Loading...</td>
+                        </tr>
+                    }
+          {/* <tr>
             <td>Centro comercial Moctezuma</td>
             <td>Francisco Chang</td>
             <td>Mexico</td>
@@ -74,7 +84,7 @@ function CovidTable(props) {
             <td>Roland Mendel</td>
             <td>Austria</td>
             <td>Mexico</td>
-          </tr>
+          </tr> */}
         </tbody>
       </table>
     </div>
