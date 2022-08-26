@@ -5,47 +5,26 @@ import  { useState } from 'react';
 import React  from 'react';
 import Todolist from './component/Todolist/Todolist';
 import CovidTable from './component/Table/CovidTable';
-function App() {
-  let [value, setValue] = useState("lu");
-  let [address, setaddress] = useState("Nhập vào đi");
-  let [obj, setObj] = useState([
-    {id:1, title:"Playing Soccer",name:"Lu"},
-    {id:2, title:"Playing tenis",name:"B"},
-    {id:3, title:"Do my homework",name:"C"},
-  ]
+import { BrowserRouter, Routes, Route, Switch } from "react-router-dom";
 
-  )
-  const onSubmit = () =>{
-    //tao biến mới lưu trữ title: gán address vào
-    let todonew = {id: Math.floor((Math.random() * 100)+1),title:address, name:"Lu"}
-    // alert(value);
-    setValue(address);
-    // spead syntax array js
-    setObj([...obj,todonew]);
-    //reset
-    setaddress("");
-  }
-  const handelChange = (event) =>{
-    setaddress(
-    event.target.value
-   );
-   console.log(event.target.value);
-  }
-  const onDeleteX = (id) =>{
-    let changeObj = obj;
-    changeObj = changeObj.filter(item => item.id !== id)
-    setObj(changeObj)
-  }
+function App() {
+ 
   return (
+    <BrowserRouter>
     <div className="container">
       <Nav />
-      <h1>Thay đổi thông tin nè nhập vào nè: {value}</h1>
-      <CovidTable />
-      {/* <Todolist obj={obj} title="All obj" onDeleteX={onDeleteX}/>
-      <Todolist obj={obj.filter( item => item.name ==="Lu")} title="Name:Lu" onDeleteX={onDeleteX}/>
-      <input type="text" value={address} onChange={(event) => {handelChange(event) }} />
-      <button type="button" onClick={()=>{onSubmit()}}>Click</button> */}
+      <h1>Thay đổi thông tin nè nhập vào nè:</h1> 
+      {/* <Body /> */}
+      <Routes>
+      <Route path='/' element={<CovidTable />} />
+      <Route path='/todolist' element={<Todolist />} />
+      {/* <Route path='/newtask' element={<Home />} />
+      <Route path='/doingtask' element={<Home />} />
+      <Route path='/donetask' element={<Home />} /> */}
+      
+      </Routes>
     </div>
+    </BrowserRouter>
   );
 }
 
